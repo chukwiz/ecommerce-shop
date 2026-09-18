@@ -69,6 +69,7 @@ func main() {
 
 	if err := httpServer.Shutdown(ctx); err != nil {
 		log.Error().Err(err).Msg("failed to shutdown hyyp server")
+		return
 	}
 
 	log.Info().Msg("shutting down database")
