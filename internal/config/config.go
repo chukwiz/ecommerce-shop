@@ -17,7 +17,7 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Port     string
+	Port    string
 	GinMode string
 }
 
@@ -58,7 +58,7 @@ func Load() (*Config, error) {
 
 	return &Config{
 		Server: ServerConfig{
-			Port:     getEnv("PORT", "8080"),
+			Port:    getEnv("PORT", "8080"),
 			GinMode: getEnv("GIN_MODE", "debug"),
 		},
 
@@ -89,7 +89,7 @@ func Load() (*Config, error) {
 	}, nil
 }
 
-func getEnv(key string, defaultValue string) string {
+func getEnv(key, defaultValue string) string {
 	if val := os.Getenv(key); val != "" {
 		return val
 	}
