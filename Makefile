@@ -13,10 +13,10 @@ build:
 	go build -o bin/app cmd/api/main.go
 
 run:
-	go run cmd/api
+	go run ./cmd/api
 
 dev:
-	go run cmd/api/main.go
+	go run ./cmd/api/main.go
 
 lint: 
 	golangci-lint run ./...
