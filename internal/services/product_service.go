@@ -135,6 +135,10 @@ func (s *ProductService) UpdateProduct(id uint, req *dto.UpdateProductRequest) (
 	return s.GetProduct(id)
 }
 
+func (s *ProductService) DeleteProduct(id uint) error {
+	return s.db.Delete(&models.Product{}, id).Error
+}
+
 func (s *ProductService) GetProducts(page, limit int) ([]dto.ProductResponse, *utils.PaginationMeta, error) {
 	if page < 1 {
 		page = 1
