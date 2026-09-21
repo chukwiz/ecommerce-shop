@@ -14,6 +14,7 @@ import (
 	"github.com/chukwiz/go-shop/internal/database"
 	"github.com/chukwiz/go-shop/internal/logger"
 	"github.com/chukwiz/go-shop/internal/server"
+	"github.com/chukwiz/go-shop/internal/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,7 +43,11 @@ func main() {
 
 	gin.SetMode(cfg.Server.GinMode)
 
-	srv := server.New(cfg, db, &log)
+	authService := services.NewAuthService(db, cfg)
+	userService := services.NewUserService(db)
+	productService := services.NewProductService(db)
+
+	srv := server.New(cfg, db, &log, authService, userService, productService)
 	router := srv.SetupRoutes()
 
 	httpServer := &http.Server{
