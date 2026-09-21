@@ -13,6 +13,7 @@ import (
 	"github.com/chukwiz/go-shop/internal/config"
 	"github.com/chukwiz/go-shop/internal/database"
 	"github.com/chukwiz/go-shop/internal/logger"
+	"github.com/chukwiz/go-shop/internal/providers"
 	"github.com/chukwiz/go-shop/internal/server"
 	"github.com/chukwiz/go-shop/internal/services"
 	"github.com/gin-gonic/gin"
@@ -46,8 +47,9 @@ func main() {
 	authService := services.NewAuthService(db, cfg)
 	userService := services.NewUserService(db)
 	productService := services.NewProductService(db)
+	uploadService := services.NewUploadService(providers.NewLocalUploadProvider(cfg.Upload.Path))
 
-	srv := server.New(cfg, db, &log, authService, userService, productService)
+	srv := server.New(cfg, db, &log, authService, userService, productService, uploadService)
 	router := srv.SetupRoutes()
 
 	httpServer := &http.Server{

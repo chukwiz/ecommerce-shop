@@ -2,6 +2,7 @@ package providers
 
 import (
 	"fmt"
+	"log"
 	"mime/multipart"
 	"os"
 	"path/filepath"
@@ -19,7 +20,7 @@ func NewLocalUploadProvider(basePath string) *LocalUploadProvider {
 
 func (p *LocalUploadProvider) UploadFile(file *multipart.FileHeader, path string) (string, error) {
 	fullPath := filepath.Join(p.basePath, path)
-	if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
 		return "", err
 	}
 
@@ -27,13 +28,21 @@ func (p *LocalUploadProvider) UploadFile(file *multipart.FileHeader, path string
 	if err != nil {
 		return "", err
 	}
-	defer src.Close()
+	defer func() {
+		if err := src.Close(); err != nil {
+			log.Printf("failed to close file: %v", err)
+		}
+	}()
 
 	dst, err := os.Create(fullPath)
 	if err != nil {
 		return "", err
 	}
-	defer dst.Close()
+	defer func() {
+		if err := dst.Close(); err != nil {
+			log.Printf("failed to close file: %v", err)
+		}
+	}()
 
 	if _, err := dst.ReadFrom(src); err != nil {
 		return "", err
