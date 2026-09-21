@@ -54,7 +54,7 @@ func (s *ProductService) GetCategories() ([]dto.CategoryResponse, error) {
 	return response, nil
 }
 
-func (s *ProductService) UpdateCategory(id string, req *dto.UpdateCategoryRequest) (*dto.CategoryResponse, error) {
+func (s *ProductService) UpdateCategory(id uint, req *dto.UpdateCategoryRequest) (*dto.CategoryResponse, error) {
 	var category models.Category
 
 	if err := s.db.First(&category, id).Error; err != nil {
