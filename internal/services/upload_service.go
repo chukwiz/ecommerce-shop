@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/google/uuid"
+
 	"github.com/chukwiz/go-shop/internal/interfaces"
 )
 
@@ -26,7 +28,9 @@ func (s *UploadService) UploadProductImage(productID uint, file *multipart.FileH
 		return "", fmt.Errorf("invalid file type %s", ext)
 	}
 
-	path := fmt.Sprintf("products/%d/%s", productID, file.Filename)
+	newFileName := uuid.New().String()
+
+	path := fmt.Sprintf("products/%d/%s%s", productID, newFileName, ext)
 
 	return s.provider.UploadFile(file, path)
 }
