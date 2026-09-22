@@ -23,6 +23,7 @@ services:
       - "4566:4566"
     volumes:
       - localstack_data:/var/lib/localstack
+      - ./init/aws/init_localstack.sh:/etc/localstack/init/ready.d/init.sh
 
 volumes:
   postgres_data:

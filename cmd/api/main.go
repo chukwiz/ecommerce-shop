@@ -12,6 +12,7 @@ import (
 
 	"github.com/chukwiz/go-shop/internal/config"
 	"github.com/chukwiz/go-shop/internal/database"
+	"github.com/chukwiz/go-shop/internal/interfaces"
 	"github.com/chukwiz/go-shop/internal/logger"
 	"github.com/chukwiz/go-shop/internal/providers"
 	"github.com/chukwiz/go-shop/internal/server"
@@ -47,7 +48,16 @@ func main() {
 	authService := services.NewAuthService(db, cfg)
 	userService := services.NewUserService(db)
 	productService := services.NewProductService(db)
-	uploadService := services.NewUploadService(providers.NewLocalUploadProvider(cfg.Upload.Path))
+
+	var uploadProvider interfaces.UploadProvider
+
+	if cfg.Upload.UploadProvider == "s3" {
+		uploadProvider = providers.NewS3Provider(cfg)
+	} else {
+		uploadProvider = providers.NewLocalUploadProvider(cfg.Upload.Path)
+	}
+
+	uploadService := services.NewUploadService(uploadProvider)
 
 	srv := server.New(cfg, db, &log, authService, userService, productService, uploadService)
 	router := srv.SetupRoutes()
