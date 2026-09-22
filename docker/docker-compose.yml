@@ -20,7 +20,7 @@ services:
     depends_on:
       - localstack
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack:3.4.0
     container_name: localstack_container
     environment:
       - SERVICES=s3,sqs
