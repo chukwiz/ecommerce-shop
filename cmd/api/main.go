@@ -12,6 +12,7 @@ import (
 
 	"github.com/chukwiz/go-shop/internal/config"
 	"github.com/chukwiz/go-shop/internal/database"
+	"github.com/chukwiz/go-shop/internal/events"
 	"github.com/chukwiz/go-shop/internal/interfaces"
 	"github.com/chukwiz/go-shop/internal/logger"
 	"github.com/chukwiz/go-shop/internal/providers"
@@ -64,9 +65,17 @@ func main() {
 		}
 	}()
 
+	ctx := context.Background()
+
+	eventPublisher, err := events.NewEventPublisher(ctx, &cfg.AWS)
+	if err != nil {
+		log.Error().Err(err).Msg("failed to create event publisher")
+		return
+	}
+
 	gin.SetMode(cfg.Server.GinMode)
 
-	authService := services.NewAuthService(db, cfg)
+	authService := services.NewAuthService(db, cfg, eventPublisher)
 	userService := services.NewUserService(db)
 	productService := services.NewProductService(db)
 	cartService := services.NewCartService(db)

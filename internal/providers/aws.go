@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 )
 
-func CreateAwsConfig(ctx context.Context, endpoint, region string) (aws.Config, error) {
+func CreateAWSConfig(ctx context.Context, endpoint, region string) (aws.Config, error) {
 
 	var cfg aws.Config
 	var err error
