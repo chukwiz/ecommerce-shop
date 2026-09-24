@@ -1,4 +1,4 @@
-.PHONY: build run dev lint migrate-up migrate-down help
+.PHONY: build run dev lint migrate-up migrate-down help docs-generate
 
 help:
 	@echo "Makefile commands:"
@@ -25,6 +25,10 @@ lint: format
 format:
 	@gofmt -s -w .
 	@goimports -w .
+
+docs-generate:
+	mkdir -p docs
+	swag init -g cmd/api/main.go -o docs --parseDependency --parseInternal --exclude .git,docs,docker,db
 
 migrate-up:
 	migrate -path db/migrations -database "postgres://postgres:password@localhost:5432/ecommerce_shop?sslmode=disable" up

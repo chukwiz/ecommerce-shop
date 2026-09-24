@@ -3,11 +3,15 @@ package server
 import (
 	"net/http"
 
+	_ "github.com/chukwiz/go-shop/docs"
 	"github.com/chukwiz/go-shop/internal/config"
 	"github.com/chukwiz/go-shop/internal/services"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
@@ -51,6 +55,11 @@ func (s *Server) SetupRoutes() *gin.Engine {
 	router.Use(s.corsMiddleware())
 
 	router.GET("/health", s.healthCheck)
+
+	// Add documentation routes
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	router.StaticFile("/api-docs", "./docs/rapidoc.html")
 	router.Static("/uploads", "./uploads")
 
 	api := router.Group("/api/v1")
@@ -112,6 +121,7 @@ func (s *Server) SetupRoutes() *gin.Engine {
 		}
 		api.GET("/categories", s.getCategories)
 		api.GET("/products", s.getProducts)
+		api.GET("/search", s.searchProducts)
 		api.GET("/products/:id", s.getProduct)
 	}
 	return router
