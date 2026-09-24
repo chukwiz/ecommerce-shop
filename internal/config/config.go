@@ -42,6 +42,7 @@ type AWSConfig struct {
 	Region          string
 	S3Bucket        string
 	S3Endpoint      string
+	EventQueueName  string
 }
 
 type UploadConfig struct {
@@ -82,6 +83,7 @@ func Load() (*Config, error) {
 			Region:          getEnv("AWS_REGION", "us-east-1"),
 			S3Bucket:        getEnv("AWS_S3_BUCKET", "ecommerce-uploads"),
 			S3Endpoint:      getEnv("AWS_S3_ENDPOINT", "http://localhost:4566"),
+			EventQueueName:  getEnv("AWS_EVENT_QUEUE_NAME", "ecommerce-events"),
 		},
 		Upload: UploadConfig{
 			MaxFileSize:    maxUploadSize,
