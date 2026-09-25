@@ -1,10 +1,10 @@
-FROM golang:1.24.4-alpine3.23 AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
 # Install dependencies
 COPY go.mod go.sum ./
-RUN apk --no-cache upgrade && go mod download
+RUN go mod download
 
 # Copy source code
 COPY . .
@@ -20,11 +20,10 @@ RUN mkdir -p /app/bin && \
     done
 
 # Final stage
-FROM alpine:3.23
+FROM alpine:latest
 
-# Install ca-certificates for HTTPS requests and patch OS packages
-RUN apk --no-cache upgrade && \
-    apk --no-cache add ca-certificates
+# Install ca-certificates for HTTPS requests
+RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
