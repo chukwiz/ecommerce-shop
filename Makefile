@@ -49,3 +49,6 @@ docker-up:
 
 docker-down:
 	docker-compose -f docker/docker-compose.yml down
+
+graph-generate:
+	gqlgen generate
