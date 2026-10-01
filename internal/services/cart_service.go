@@ -135,5 +135,7 @@ func (s *CartService) convertToCartResponse(cart *models.Cart) *dto.CartResponse
 		UserID:    cart.UserID,
 		CartItems: cartItems,
 		Total:     total,
+		CreatedAt: cart.CreatedAt,
+		UpdatedAt: cart.UpdatedAt,
 	}
 }
