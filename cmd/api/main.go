@@ -16,6 +16,7 @@ import (
 	"github.com/chukwiz/go-shop/internal/interfaces"
 	"github.com/chukwiz/go-shop/internal/logger"
 	"github.com/chukwiz/go-shop/internal/providers"
+	"github.com/chukwiz/go-shop/internal/repositories"
 	"github.com/chukwiz/go-shop/internal/server"
 	"github.com/chukwiz/go-shop/internal/services"
 	"github.com/gin-gonic/gin"
@@ -75,7 +76,10 @@ func main() {
 
 	gin.SetMode(cfg.Server.GinMode)
 
-	authService := services.NewAuthService(db, cfg, eventPublisher)
+	userRepo := repositories.NewUserRepository(db)
+	cartRepo := repositories.NewCartRepository(db)
+
+	authService := services.NewAuthService(*userRepo, *cartRepo, cfg, eventPublisher)
 	userService := services.NewUserService(db)
 	productService := services.NewProductService(db)
 	cartService := services.NewCartService(db)
