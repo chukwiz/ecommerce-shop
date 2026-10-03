@@ -259,7 +259,7 @@ func (r *queryResolver) Me(ctx context.Context) (*dto.UserResponse, error) {
 }
 
 // Products is the resolver for the products field.
-func (r *queryResolver) Products(ctx context.Context, page *int, limit *int) (*model.ProductConnection, error) {
+func (r *queryResolver) Products(ctx context.Context, page, limit *int) (*model.ProductConnection, error) {
 	p, l := getPagingNumbers(page, limit)
 
 	products, meta, err := r.productService.GetProducts(p, l)
@@ -331,7 +331,7 @@ func (r *queryResolver) Cart(ctx context.Context) (*dto.CartResponse, error) {
 }
 
 // Orders is the resolver for the orders field.
-func (r *queryResolver) Orders(ctx context.Context, page *int, limit *int) (*model.OrderConnection, error) {
+func (r *queryResolver) Orders(ctx context.Context, page, limit *int) (*model.OrderConnection, error) {
 	userID, err := GetUserIDFromContext(ctx)
 	if err != nil {
 		return nil, ErrUnauthorized

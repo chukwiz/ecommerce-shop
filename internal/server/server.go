@@ -16,22 +16,22 @@ import (
 type Server struct {
 	config         *config.Config
 	logger         *zerolog.Logger
-	authService    *services.AuthService
-	userService    *services.UserService
-	productService *services.ProductService
-	uploadService  *services.UploadService
-	cartService    *services.CartService
-	orderService   *services.OrderService
+	authService    services.AuthServiceInterface
+	userService    services.UserServiceInterface
+	productService services.ProductServiceInterface
+	uploadService  services.UploadServiceInterface
+	cartService    services.CartServiceInterface
+	orderService   services.OrderServiceInterface
 }
 
 func New(cfg *config.Config,
 	logger *zerolog.Logger,
-	authService *services.AuthService,
-	userService *services.UserService,
-	productService *services.ProductService,
-	uploadService *services.UploadService,
-	cartService *services.CartService,
-	orderService *services.OrderService) *Server {
+	authService services.AuthServiceInterface,
+	userService services.UserServiceInterface,
+	productService services.ProductServiceInterface,
+	uploadService services.UploadServiceInterface,
+	cartService services.CartServiceInterface,
+	orderService services.OrderServiceInterface) *Server {
 	return &Server{
 		config:         cfg,
 		logger:         logger,

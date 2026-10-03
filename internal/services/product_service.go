@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ OrderServiceInterface = (*OrderService)(nil)
+
 type ProductService struct {
 	db *gorm.DB
 }
