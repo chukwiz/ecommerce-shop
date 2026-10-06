@@ -121,7 +121,7 @@ func main() {
 	defer cancel()
 
 	if err := httpServer.Shutdown(ctx); err != nil {
-		log.Error().Err(err).Msg("failed to shutdown hyyp server")
+		log.Error().Err(err).Msg("failed to shutdown http server")
 		return
 	}
 
